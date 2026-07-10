@@ -79,7 +79,6 @@
                             <option value="1">เดินทาง 1 คน</option>
                             <option value="spouse">มีคู่สมรส</option>
                         </select>
-                        <!-- เพิ่ม oninput เพื่อให้พิมพ์แล้วไปขึ้นที่ช่องผู้นอนคู่ด้วยอัตโนมัติ -->
                         <input type="text" id="spouseName" oninput="syncRoommateName()" class="w-full p-2 border rounded-md hidden mt-2" placeholder="ชื่อ-สกุล คู่สมรส (ภาษาอังกฤษ)">
                     </div>
 
@@ -117,7 +116,6 @@
                         <input type="text" id="allergy" class="w-full p-2 border rounded-md" placeholder="ถ้าไม่มีให้เว้นว่าง หรือระบุสิ่งที่แพ้">
                     </div>
 
-                    <!-- เพิ่มส่วนขนาดรอบอกชุดการแสดง -->
                     <div class="grid grid-cols-2 gap-4">
                         <div>
                             <label class="block text-sm text-gray-600 mb-1">รอบอก (นิ้ว) ชุดการแสดง</label>
@@ -144,9 +142,17 @@
                         </select>
                     </div>
                     
-                    <div>
-                        <label class="block text-sm text-gray-600 mb-1">แนบไฟล์ Passport (รูปภาพ หรือ PDF)</label>
-                        <input type="file" id="passportFile" class="w-full p-2 border rounded-md text-sm bg-gray-50">
+                    <!-- ส่วนแนบไฟล์ Passport -->
+                    <div class="p-4 border rounded-lg bg-gray-50 space-y-4">
+                        <div>
+                            <label class="block text-sm text-gray-700 font-semibold mb-1">แนบไฟล์ Passport ของท่าน</label>
+                            <input type="file" id="passportFile" class="w-full p-2 border rounded-md text-sm bg-white">
+                        </div>
+                        <!-- เพิ่มส่วนแนบไฟล์ Passport คู่สมรส (ซ่อนไว้ก่อน) -->
+                        <div id="spousePassportDiv" class="hidden border-t pt-4">
+                            <label class="block text-sm text-gray-700 font-semibold mb-1">แนบไฟล์ Passport คู่สมรส</label>
+                            <input type="file" id="spousePassportFile" class="w-full p-2 border rounded-md text-sm bg-white">
+                        </div>
                     </div>
                 </div>
 
@@ -171,7 +177,7 @@
         </form>
     </div>
 
-    <!-- Modal กำหนดการ (PDF) -->
+    <!-- Modals คงเดิม -->
     <div id="scheduleModal" class="fixed inset-0 bg-black bg-opacity-60 hidden flex items-center justify-center p-4 z-50">
         <div class="bg-white rounded-xl max-w-4xl w-full h-[85vh] flex flex-col overflow-hidden shadow-2xl">
             <div class="flex justify-between items-center p-4 border-b bg-gray-50">
@@ -183,7 +189,6 @@
                 </button>
             </div>
             <div class="flex-grow p-0 relative bg-gray-200">
-                <!-- ใส่ URL ไฟล์ PDF ของคุณตรง src -->
                 <iframe src="https://drive.google.com/file/d/1ypTPoUFz7f-C7nrPs1RcoTT5gcUYj--D/preview" class="w-full h-full border-none absolute inset-0" title="กำหนดการ"></iframe>
             </div>
             <div class="p-3 border-t bg-white text-right">
@@ -192,7 +197,6 @@
         </div>
     </div>
 
-    <!-- Modal City Tour -->
     <div id="tourModal" class="fixed inset-0 bg-black bg-opacity-50 hidden flex items-center justify-center p-4 z-50">
         <div class="bg-white rounded-lg max-w-md w-full p-6 shadow-2xl">
             <h3 class="text-lg font-semibold mb-2 border-b pb-2">
@@ -230,7 +234,6 @@
         }
         
         function syncRoommateName() {
-            // ถ้าระบุว่ามีคู่สมรส และห้องพักเลือกนอนคู่ไว้ ให้เอาชื่อคู่สมรสไปใส่ในชื่อผู้นอนคู่
             const isSpouse = document.getElementById('companionType').value === 'spouse';
             const roomType = document.getElementById('roomType').value;
             if (isSpouse && roomType === 'นอนคู่') {
@@ -242,12 +245,12 @@
             const isSpouse = document.getElementById('companionType').value === 'spouse';
             document.getElementById('spouseName').classList.toggle('hidden', !isSpouse);
             document.getElementById('spouseChestDiv').classList.toggle('hidden', !isSpouse);
+            document.getElementById('spousePassportDiv').classList.toggle('hidden', !isSpouse); // โชว์ช่องอัปโหลดคู่สมรส
             
             if (isSpouse) {
-                // Auto-fill เป็นนอนคู่ เมื่อเลือกมีคู่สมรส
                 document.getElementById('roomType').value = 'นอนคู่';
                 toggleRoommate();
-                syncRoommateName(); // เรียกเพื่อให้ดึงข้อมูลที่อาจจะพิมพ์ไว้แล้วมาโชว์
+                syncRoommateName();
             }
         }
         
@@ -276,6 +279,21 @@
 
         let formDataToSubmit = {};
         let fileToSubmit = null;
+        let spouseFileToSubmit = null; // ตัวแปรเก็บไฟล์คู่สมรส
+
+        // ฟังก์ชันอ่านไฟล์เป็น Base64 แบบ Promise เพื่อรองรับหลายไฟล์พร้อมกัน
+        function getBase64(file) {
+            return new Promise((resolve, reject) => {
+                const reader = new FileReader();
+                reader.readAsDataURL(file);
+                reader.onload = () => resolve({
+                    filename: file.name,
+                    mimeType: file.type,
+                    base64: reader.result.split(',')[1]
+                });
+                reader.onerror = error => reject(error);
+            });
+        }
 
         async function showSummary() {
             const name = document.getElementById('fullName').value;
@@ -283,13 +301,14 @@
 
             const group = document.querySelector('input[name="travelGroup"]:checked').value;
             const notAttending = group === 'ไม่ร่วมเดินทาง';
+            const isSpouse = document.getElementById('companionType').value === 'spouse';
 
             formDataToSubmit = {
                 travelGroup: group,
                 otherGroup: group === 'อื่นๆ' ? document.getElementById('otherGroupText').value : '',
                 fullName: name,
                 departureAirport: notAttending ? '' : document.getElementById('departureAirport').value,
-                spouseName: notAttending ? '' : (document.getElementById('companionType').value === 'spouse' ? document.getElementById('spouseName').value : ''),
+                spouseName: (notAttending || !isSpouse) ? '' : document.getElementById('spouseName').value,
                 position: notAttending ? '' : document.getElementById('position').value,
                 organization: notAttending ? '' : document.getElementById('organization').value,
                 phone: notAttending ? '' : document.getElementById('phone').value,
@@ -298,7 +317,7 @@
                 roommateName: notAttending ? '' : (document.getElementById('roomType').value === 'นอนคู่' ? document.getElementById('roommateName').value : ''),
                 allergy: notAttending ? '' : document.getElementById('allergy').value,
                 chestSize: notAttending ? '' : document.getElementById('chestSize').value,
-                spouseChestSize: notAttending ? '' : (document.getElementById('companionType').value === 'spouse' ? document.getElementById('spouseChestSize').value : ''),
+                spouseChestSize: (notAttending || !isSpouse) ? '' : document.getElementById('spouseChestSize').value,
                 cityTour: notAttending ? '' : document.getElementById('cityTour').value,
             };
 
@@ -321,17 +340,20 @@
 
             document.getElementById('summaryContent').innerHTML = summaryHTML;
 
+            // จัดการแปลงไฟล์ Passport หลัก
             const fileInput = document.getElementById('passportFile');
             if (fileInput && fileInput.files.length > 0) {
-                const file = fileInput.files[0];
-                const reader = new FileReader();
-                reader.onload = function(e) {
-                    const base64 = e.target.result.split(',')[1];
-                    fileToSubmit = { filename: file.name, mimeType: file.type, base64: base64 };
-                };
-                reader.readAsDataURL(file);
+                fileToSubmit = await getBase64(fileInput.files[0]);
             } else {
                 fileToSubmit = null;
+            }
+
+            // จัดการแปลงไฟล์ Passport คู่สมรส
+            const spouseFileInput = document.getElementById('spousePassportFile');
+            if (!notAttending && isSpouse && spouseFileInput && spouseFileInput.files.length > 0) {
+                spouseFileToSubmit = await getBase64(spouseFileInput.files[0]);
+            } else {
+                spouseFileToSubmit = null;
             }
 
             document.getElementById('step2').classList.add('hidden');
@@ -341,14 +363,19 @@
         function submitForm() {
             Swal.fire({
                 title: 'กำลังบันทึกข้อมูล...',
-                text: 'ระบบกำลังอัปโหลดไฟล์พาสปอร์ตและบันทึกลงฐานข้อมูล กรุณารอสักครู่',
+                text: 'ระบบกำลังอัปโหลดไฟล์และบันทึกลงฐานข้อมูล กรุณารอสักครู่',
                 allowOutsideClick: false,
                 didOpen: () => {
                     Swal.showLoading();
                 }
             });
 
-            const payload = { form: formDataToSubmit, file: fileToSubmit };
+            // ส่งข้อมูลไฟล์ทั้ง 2 อันไปพร้อมกัน
+            const payload = { 
+                form: formDataToSubmit, 
+                file: fileToSubmit,
+                spouseFile: spouseFileToSubmit 
+            };
 
             fetch(APPS_SCRIPT_URL, {
                 method: 'POST',
