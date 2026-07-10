@@ -6,7 +6,6 @@
     <title>ลงทะเบียน ACHA ครั้งที่ 28</title>
     <script src="https://cdn.tailwindcss.com"></script>
     <link href="https://fonts.googleapis.com/css2?family=Prompt:wght@300;400;500;600&display=swap" rel="stylesheet">
-    <!-- นำเข้า SweetAlert2 ให้หน้าตาสวยงาม -->
     <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
     <style>
         body { font-family: 'Prompt', sans-serif; background-color: #f3f4f6; }
@@ -18,16 +17,12 @@
 
     <div class="max-w-xl mx-auto bg-white rounded-2xl shadow-xl overflow-hidden">
         
-        <!-- ส่วน Header (Logo, ชื่อโครงการ, ปุ่มดูกำหนดการ) -->
+        <!-- Header -->
         <div class="bg-blue-600 p-6 text-white text-center relative">
-            
-            <!-- ใส่ URL รูปภาพโลโก้ตรง src -->
             <img src="https://tain6666.github.io/bch.github.io/pic/mmc2025-2.png" alt="ACHA Logo" class="h-16 mx-auto mb-3 object-contain bg-white rounded-lg p-1 shadow-sm" onerror="this.style.display='none'">
-            
             <h1 class="text-2xl font-semibold">ลงทะเบียน ACHA ครั้งที่ 28</h1>
             <p class="text-sm opacity-90 mt-1 mb-4">ณ ประเทศไต้หวัน วันที่ 24-29 พ.ย. 2026</p>
             
-            <!-- ปุ่มดูกำหนดการ -->
             <button type="button" onclick="openScheduleModal()" class="inline-flex items-center justify-center bg-white text-blue-700 px-5 py-2 rounded-full text-sm font-semibold shadow-md hover:bg-blue-50 transition duration-200">
                 <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 mr-2" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                   <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z" />
@@ -121,7 +116,10 @@
 
                     <div class="p-4 border rounded-lg bg-blue-50">
                         <div class="flex justify-between items-center mb-2">
-                            <label class="block text-sm text-gray-700 font-semibold">เลือก City Tour</label>
+                            <div>
+                                <label class="block text-sm text-gray-700 font-semibold">เลือก City Tour</label>
+                                <span class="block text-xs text-blue-600 font-medium">วันที่ 27 พ.ย. 2026 เวลา 13:30-17:00</span>
+                            </div>
                             <button type="button" onclick="openModal()" class="text-xs bg-blue-200 text-blue-800 px-3 py-1 rounded-full font-medium hover:bg-blue-300">ดูรายละเอียด</button>
                         </div>
                         <select id="cityTour" class="w-full p-2 border rounded-md">
@@ -129,11 +127,6 @@
                             <option value="City Tour 1">City Tour 1 (NT$250)</option>
                             <option value="City Tour 2">City Tour 2 (NT$830)</option>
                         </select>
-                    </div>
-
-                    <div>
-                        <label class="block text-sm text-gray-600 mb-1">Passport No.</label>
-                        <input type="text" id="passportNo" class="w-full p-2 border rounded-md">
                     </div>
                     
                     <div>
@@ -143,8 +136,8 @@
                 </div>
 
                 <div class="flex gap-3 mt-6">
-                    <button type="button" onclick="goBack(1)" class="w-1/3 bg-gray-200 text-gray-700 py-3 rounded-lg font-medium hover:bg-gray-300">ย้อนกลับ</button>
-                    <button type="button" onclick="showSummary()" class="w-2/3 bg-blue-600 text-white py-3 rounded-lg font-medium hover:bg-blue-700 shadow-md">ตรวจสอบข้อมูล</button>
+                    <button type="button" onclick="goBack(1)" class="w-1/2 bg-gray-200 text-gray-700 py-3 rounded-lg font-medium hover:bg-gray-300 text-sm md:text-base">ย้อนกลับไปหน้าเลือกกลุ่ม</button>
+                    <button type="button" onclick="showSummary()" class="w-1/2 bg-blue-600 text-white py-3 rounded-lg font-medium hover:bg-blue-700 shadow-md text-sm md:text-base">ตรวจสอบข้อมูล</button>
                 </div>
             </div>
 
@@ -176,7 +169,6 @@
             </div>
             <div class="flex-grow p-0 relative bg-gray-200">
                 <!-- ใส่ URL ไฟล์ PDF ของคุณตรง src -->
-                <!-- แนะนำให้ฝากไฟล์ไว้ที่ Google Drive แล้วเอา link แบบ preview มาใส่จะแสดงผลบนมือถือได้ดีที่สุด -->
                 <iframe src="https://drive.google.com/file/d/1ypTPoUFz7f-C7nrPs1RcoTT5gcUYj--D/preview" class="w-full h-full border-none absolute inset-0" title="กำหนดการ"></iframe>
             </div>
             <div class="p-3 border-t bg-white text-right">
@@ -188,8 +180,11 @@
     <!-- Modal City Tour -->
     <div id="tourModal" class="fixed inset-0 bg-black bg-opacity-50 hidden flex items-center justify-center p-4 z-50">
         <div class="bg-white rounded-lg max-w-md w-full p-6 shadow-2xl">
-            <h3 class="text-lg font-semibold mb-4 border-b pb-2">รายละเอียด City Tour</h3>
-            <div class="space-y-4 text-sm text-gray-700">
+            <h3 class="text-lg font-semibold mb-2 border-b pb-2">
+                รายละเอียด City Tour<br>
+                <span class="text-sm text-blue-600 font-medium">วันที่ 27 พ.ย. 2026 เวลา 13:30-17:00</span>
+            </h3>
+            <div class="space-y-4 text-sm text-gray-700 mt-4">
                 <div class="p-3 bg-blue-50 rounded-lg border border-blue-100">
                     <h4 class="font-bold text-blue-700 text-base">City Tour 1: Missionaries' Footsteps</h4>
                     <p class="mt-1">(Sin-Lau Hospital, Maxwell Memorial Church, Tainan Theological Seminary)</p>
@@ -269,7 +264,6 @@
                 roommateName: notAttending ? '' : (document.getElementById('roomType').value === 'นอนคู่' ? document.getElementById('roommateName').value : ''),
                 allergy: notAttending ? '' : document.getElementById('allergy').value,
                 cityTour: notAttending ? '' : document.getElementById('cityTour').value,
-                passportNo: notAttending ? '' : document.getElementById('passportNo').value,
             };
 
             let summaryHTML = `<p><strong>ชื่อ-สกุล:</strong> ${formDataToSubmit.fullName}</p>
@@ -285,7 +279,6 @@
                     <p><strong>ห้องพัก:</strong> ${formDataToSubmit.roomType} ${formDataToSubmit.roommateName ? `(คู่กับ ${formDataToSubmit.roommateName})` : ''}</p>
                     <p><strong>แพ้อาหาร:</strong> ${formDataToSubmit.allergy || 'ไม่มี'}</p>
                     <p><strong>City Tour:</strong> ${formDataToSubmit.cityTour || 'ไม่ระบุ'}</p>
-                    <p><strong>Passport No:</strong> ${formDataToSubmit.passportNo}</p>
                 `;
             }
 
