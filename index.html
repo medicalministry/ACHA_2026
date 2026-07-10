@@ -72,13 +72,15 @@
                         </select>
                     </div>
 
+                    <!-- ส่วนคู่สมรส -->
                     <div>
                         <label class="block text-sm text-gray-600 mb-1">ผู้ร่วมเดินทาง</label>
                         <select id="companionType" onchange="toggleSpouse()" class="w-full p-2 border rounded-md">
                             <option value="1">เดินทาง 1 คน</option>
                             <option value="spouse">มีคู่สมรส</option>
                         </select>
-                        <input type="text" id="spouseName" class="w-full p-2 border rounded-md hidden mt-2" placeholder="ชื่อ-สกุล คู่สมรส (ภาษาอังกฤษ)">
+                        <!-- เพิ่ม oninput เพื่อให้พิมพ์แล้วไปขึ้นที่ช่องผู้นอนคู่ด้วยอัตโนมัติ -->
+                        <input type="text" id="spouseName" oninput="syncRoommateName()" class="w-full p-2 border rounded-md hidden mt-2" placeholder="ชื่อ-สกุล คู่สมรส (ภาษาอังกฤษ)">
                     </div>
 
                     <div>
@@ -100,6 +102,7 @@
                         </div>
                     </div>
 
+                    <!-- ส่วนห้องพัก -->
                     <div>
                         <label class="block text-sm text-gray-600 mb-1">ประเภทห้องพัก</label>
                         <select id="roomType" onchange="toggleRoommate()" class="w-full p-2 border rounded-md">
@@ -112,6 +115,18 @@
                     <div>
                         <label class="block text-sm text-gray-600 mb-1">อาการแพ้อาหาร</label>
                         <input type="text" id="allergy" class="w-full p-2 border rounded-md" placeholder="ถ้าไม่มีให้เว้นว่าง หรือระบุสิ่งที่แพ้">
+                    </div>
+
+                    <!-- เพิ่มส่วนขนาดรอบอกชุดการแสดง -->
+                    <div class="grid grid-cols-2 gap-4">
+                        <div>
+                            <label class="block text-sm text-gray-600 mb-1">รอบอก (นิ้ว) ชุดการแสดง</label>
+                            <input type="number" id="chestSize" class="w-full p-2 border rounded-md" placeholder="เช่น 40">
+                        </div>
+                        <div id="spouseChestDiv" class="hidden">
+                            <label class="block text-sm text-gray-600 mb-1">รอบอกคู่สมรส (นิ้ว)</label>
+                            <input type="number" id="spouseChestSize" class="w-full p-2 border rounded-md" placeholder="เช่น 38">
+                        </div>
                     </div>
 
                     <div class="p-4 border rounded-lg bg-blue-50">
@@ -213,10 +228,29 @@
             const isOther = document.querySelector('input[name="travelGroup"][value="อื่นๆ"]').checked;
             document.getElementById('otherGroupText').classList.toggle('hidden', !isOther);
         }
+        
+        function syncRoommateName() {
+            // ถ้าระบุว่ามีคู่สมรส และห้องพักเลือกนอนคู่ไว้ ให้เอาชื่อคู่สมรสไปใส่ในชื่อผู้นอนคู่
+            const isSpouse = document.getElementById('companionType').value === 'spouse';
+            const roomType = document.getElementById('roomType').value;
+            if (isSpouse && roomType === 'นอนคู่') {
+                document.getElementById('roommateName').value = document.getElementById('spouseName').value;
+            }
+        }
+
         function toggleSpouse() {
             const isSpouse = document.getElementById('companionType').value === 'spouse';
             document.getElementById('spouseName').classList.toggle('hidden', !isSpouse);
+            document.getElementById('spouseChestDiv').classList.toggle('hidden', !isSpouse);
+            
+            if (isSpouse) {
+                // Auto-fill เป็นนอนคู่ เมื่อเลือกมีคู่สมรส
+                document.getElementById('roomType').value = 'นอนคู่';
+                toggleRoommate();
+                syncRoommateName(); // เรียกเพื่อให้ดึงข้อมูลที่อาจจะพิมพ์ไว้แล้วมาโชว์
+            }
         }
+        
         function toggleRoommate() {
             const isTwin = document.getElementById('roomType').value === 'นอนคู่';
             document.getElementById('roommateName').classList.toggle('hidden', !isTwin);
@@ -263,6 +297,8 @@
                 roomType: notAttending ? '' : document.getElementById('roomType').value,
                 roommateName: notAttending ? '' : (document.getElementById('roomType').value === 'นอนคู่' ? document.getElementById('roommateName').value : ''),
                 allergy: notAttending ? '' : document.getElementById('allergy').value,
+                chestSize: notAttending ? '' : document.getElementById('chestSize').value,
+                spouseChestSize: notAttending ? '' : (document.getElementById('companionType').value === 'spouse' ? document.getElementById('spouseChestSize').value : ''),
                 cityTour: notAttending ? '' : document.getElementById('cityTour').value,
             };
 
@@ -278,6 +314,7 @@
                     <p><strong>เบอร์โทร:</strong> ${formDataToSubmit.phone} | <strong>อีเมล:</strong> ${formDataToSubmit.email}</p>
                     <p><strong>ห้องพัก:</strong> ${formDataToSubmit.roomType} ${formDataToSubmit.roommateName ? `(คู่กับ ${formDataToSubmit.roommateName})` : ''}</p>
                     <p><strong>แพ้อาหาร:</strong> ${formDataToSubmit.allergy || 'ไม่มี'}</p>
+                    <p><strong>รอบอก (ชุดการแสดง):</strong> ${formDataToSubmit.chestSize ? formDataToSubmit.chestSize + ' นิ้ว' : '-'} ${formDataToSubmit.spouseChestSize ? `| <strong>ของคู่สมรส:</strong> ${formDataToSubmit.spouseChestSize} นิ้ว` : ''}</p>
                     <p><strong>City Tour:</strong> ${formDataToSubmit.cityTour || 'ไม่ระบุ'}</p>
                 `;
             }
