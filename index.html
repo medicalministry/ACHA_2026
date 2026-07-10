@@ -11,6 +11,7 @@
         body { font-family: 'Prompt', sans-serif; background-color: #f3f4f6; }
         .hidden { display: none !important; }
         .swal2-popup { font-family: 'Prompt', sans-serif !important; }
+        .req { color: #ef4444; } /* สีแดงสำหรับเครื่องหมาย * */
     </style>
 </head>
 <body class="p-4 md:p-8">
@@ -35,10 +36,10 @@
             
             <!-- Step 1: เลือกกลุ่ม -->
             <div id="step1">
-                <h2 class="text-lg font-medium mb-4 text-gray-700">1. เลือกกลุ่มการเดินทาง</h2>
+                <h2 class="text-lg font-medium mb-4 text-gray-700">1. เลือกกลุ่มการเดินทาง <span class="req">*</span></h2>
                 <div class="space-y-3">
                     <label class="block p-3 border rounded-lg hover:bg-gray-50 cursor-pointer">
-                        <input type="radio" name="travelGroup" value="กลุ่มที่ 1 เดินทาง 24-28 พ.ย. 2026" class="mr-2" required> กลุ่มที่ 1 เดินทาง 24-28 พ.ย. 2026
+                        <input type="radio" name="travelGroup" value="กลุ่มที่ 1 เดินทาง 24-28 พ.ย. 2026" class="mr-2"> กลุ่มที่ 1 เดินทาง 24-28 พ.ย. 2026
                     </label>
                     <label class="block p-3 border rounded-lg hover:bg-gray-50 cursor-pointer">
                         <input type="radio" name="travelGroup" value="กลุ่มที่ 2 เดินทาง 24-29 พ.ย. 2026" class="mr-2"> กลุ่มที่ 2 เดินทาง 24-29 พ.ย. 2026
@@ -59,13 +60,13 @@
                 <h2 class="text-lg font-medium mb-4 text-gray-700">2. ข้อมูลผู้ลงทะเบียน</h2>
                 
                 <div>
-                    <label class="block text-sm text-gray-600 mb-1">ชื่อ-สกุล (ภาษาอังกฤษตาม Passport) *</label>
-                    <input type="text" id="fullName" class="w-full p-2 border rounded-md" required>
+                    <label class="block text-sm text-gray-600 mb-1">ชื่อ-สกุล (ภาษาอังกฤษตาม Passport) <span class="req">*</span></label>
+                    <input type="text" id="fullName" class="w-full p-2 border rounded-md">
                 </div>
 
                 <div id="travelDetails" class="space-y-4">
                     <div>
-                        <label class="block text-sm text-gray-600 mb-1">ทางเลือกการเดินทางเครื่องบิน (จุดออกเดินทาง) *</label>
+                        <label class="block text-sm text-gray-600 mb-1">ทางเลือกการเดินทางเครื่องบิน (จุดออกเดินทาง) <span class="req">*</span></label>
                         <select id="departureAirport" class="w-full p-2 border rounded-md">
                             <option value="กรุงเทพฯ">เดินทางจากกรุงเทพฯ</option>
                             <option value="เชียงใหม่">เดินทางจากเชียงใหม่</option>
@@ -74,41 +75,41 @@
 
                     <!-- ส่วนคู่สมรส -->
                     <div>
-                        <label class="block text-sm text-gray-600 mb-1">ผู้ร่วมเดินทาง</label>
+                        <label class="block text-sm text-gray-600 mb-1">ผู้ร่วมเดินทาง <span class="req">*</span></label>
                         <select id="companionType" onchange="toggleSpouse()" class="w-full p-2 border rounded-md">
                             <option value="1">เดินทาง 1 คน</option>
                             <option value="spouse">มีคู่สมรส</option>
                         </select>
-                        <input type="text" id="spouseName" oninput="syncRoommateName()" class="w-full p-2 border rounded-md hidden mt-2" placeholder="ชื่อ-สกุล คู่สมรส (ภาษาอังกฤษ)">
+                        <input type="text" id="spouseName" oninput="syncRoommateName()" class="w-full p-2 border rounded-md hidden mt-2" placeholder="ชื่อ-สกุล คู่สมรส (ภาษาอังกฤษ) *">
                     </div>
 
                     <div>
-                        <label class="block text-sm text-gray-600 mb-1">ตำแหน่ง (ภาษาอังกฤษ)</label>
+                        <label class="block text-sm text-gray-600 mb-1">ตำแหน่ง (ภาษาอังกฤษ) <span class="req">*</span></label>
                         <input type="text" id="position" class="w-full p-2 border rounded-md">
                     </div>
                     <div>
-                        <label class="block text-sm text-gray-600 mb-1">หน่วยงาน</label>
+                        <label class="block text-sm text-gray-600 mb-1">หน่วยงาน <span class="req">*</span></label>
                         <input type="text" id="organization" class="w-full p-2 border rounded-md">
                     </div>
                     <div class="grid grid-cols-2 gap-4">
                         <div>
-                            <label class="block text-sm text-gray-600 mb-1">เบอร์โทรศัพท์</label>
+                            <label class="block text-sm text-gray-600 mb-1">เบอร์โทรศัพท์ <span class="req">*</span></label>
                             <input type="tel" id="phone" class="w-full p-2 border rounded-md">
                         </div>
                         <div>
-                            <label class="block text-sm text-gray-600 mb-1">อีเมล</label>
+                            <label class="block text-sm text-gray-600 mb-1">อีเมล <span class="req">*</span></label>
                             <input type="email" id="email" class="w-full p-2 border rounded-md">
                         </div>
                     </div>
 
                     <!-- ส่วนห้องพัก -->
                     <div>
-                        <label class="block text-sm text-gray-600 mb-1">ประเภทห้องพัก</label>
+                        <label class="block text-sm text-gray-600 mb-1">ประเภทห้องพัก <span class="req">*</span></label>
                         <select id="roomType" onchange="toggleRoommate()" class="w-full p-2 border rounded-md">
                             <option value="นอนเดี่ยว">นอนเดี่ยว</option>
                             <option value="นอนคู่">นอนคู่</option>
                         </select>
-                        <input type="text" id="roommateName" class="w-full p-2 border rounded-md hidden mt-2" placeholder="ระบุชื่อผู้นอนคู่">
+                        <input type="text" id="roommateName" class="w-full p-2 border rounded-md hidden mt-2" placeholder="ระบุชื่อผู้นอนคู่ *">
                     </div>
 
                     <div>
@@ -118,11 +119,11 @@
 
                     <div class="grid grid-cols-2 gap-4">
                         <div>
-                            <label class="block text-sm text-gray-600 mb-1">รอบอก (นิ้ว) ชุดการแสดง</label>
+                            <label class="block text-sm text-gray-600 mb-1">รอบอก (นิ้ว) ชุดการแสดง <span class="req">*</span></label>
                             <input type="number" id="chestSize" class="w-full p-2 border rounded-md" placeholder="เช่น 40">
                         </div>
                         <div id="spouseChestDiv" class="hidden">
-                            <label class="block text-sm text-gray-600 mb-1">รอบอกคู่สมรส (นิ้ว)</label>
+                            <label class="block text-sm text-gray-600 mb-1">รอบอกคู่สมรส (นิ้ว) <span class="req">*</span></label>
                             <input type="number" id="spouseChestSize" class="w-full p-2 border rounded-md" placeholder="เช่น 38">
                         </div>
                     </div>
@@ -130,7 +131,7 @@
                     <div class="p-4 border rounded-lg bg-blue-50">
                         <div class="flex justify-between items-center mb-2">
                             <div>
-                                <label class="block text-sm text-gray-700 font-semibold">เลือก City Tour</label>
+                                <label class="block text-sm text-gray-700 font-semibold">เลือก City Tour <span class="req">*</span></label>
                                 <span class="block text-xs text-blue-600 font-medium">วันที่ 27 พ.ย. 2026 เวลา 13:30-17:00</span>
                             </div>
                             <button type="button" onclick="openModal()" class="text-xs bg-blue-200 text-blue-800 px-3 py-1 rounded-full font-medium hover:bg-blue-300">ดูรายละเอียด</button>
@@ -145,12 +146,11 @@
                     <!-- ส่วนแนบไฟล์ Passport -->
                     <div class="p-4 border rounded-lg bg-gray-50 space-y-4">
                         <div>
-                            <label class="block text-sm text-gray-700 font-semibold mb-1">แนบไฟล์ Passport ของท่าน</label>
+                            <label class="block text-sm text-gray-700 font-semibold mb-1">แนบไฟล์ Passport ของท่าน <span class="req">*</span></label>
                             <input type="file" id="passportFile" class="w-full p-2 border rounded-md text-sm bg-white">
                         </div>
-                        <!-- เพิ่มส่วนแนบไฟล์ Passport คู่สมรส (ซ่อนไว้ก่อน) -->
                         <div id="spousePassportDiv" class="hidden border-t pt-4">
-                            <label class="block text-sm text-gray-700 font-semibold mb-1">แนบไฟล์ Passport คู่สมรส</label>
+                            <label class="block text-sm text-gray-700 font-semibold mb-1">แนบไฟล์ Passport คู่สมรส <span class="req">*</span></label>
                             <input type="file" id="spousePassportFile" class="w-full p-2 border rounded-md text-sm bg-white">
                         </div>
                     </div>
@@ -177,7 +177,7 @@
         </form>
     </div>
 
-    <!-- Modals คงเดิม -->
+    <!-- Modals -->
     <div id="scheduleModal" class="fixed inset-0 bg-black bg-opacity-60 hidden flex items-center justify-center p-4 z-50">
         <div class="bg-white rounded-xl max-w-4xl w-full h-[85vh] flex flex-col overflow-hidden shadow-2xl">
             <div class="flex justify-between items-center p-4 border-b bg-gray-50">
@@ -245,7 +245,7 @@
             const isSpouse = document.getElementById('companionType').value === 'spouse';
             document.getElementById('spouseName').classList.toggle('hidden', !isSpouse);
             document.getElementById('spouseChestDiv').classList.toggle('hidden', !isSpouse);
-            document.getElementById('spousePassportDiv').classList.toggle('hidden', !isSpouse); // โชว์ช่องอัปโหลดคู่สมรส
+            document.getElementById('spousePassportDiv').classList.toggle('hidden', !isSpouse); 
             
             if (isSpouse) {
                 document.getElementById('roomType').value = 'นอนคู่';
@@ -263,6 +263,11 @@
             const selectedGroup = document.querySelector('input[name="travelGroup"]:checked');
             if (!selectedGroup) return Swal.fire({ icon: 'warning', title: 'กรุณาเลือก', text: 'โปรดเลือกกลุ่มการเดินทางก่อนไปขั้นตอนถัดไป' });
             
+            // กรณีเลือกอื่นๆ ต้องระบุข้อความ
+            if (selectedGroup.value === 'อื่นๆ' && !document.getElementById('otherGroupText').value.trim()) {
+                return Swal.fire({ icon: 'warning', title: 'ข้อมูลไม่ครบถ้วน', text: 'โปรดระบุรูปแบบการเดินทางอื่นๆ' });
+            }
+
             document.getElementById('step1').classList.add('hidden');
             document.getElementById('step2').classList.remove('hidden');
             
@@ -279,9 +284,8 @@
 
         let formDataToSubmit = {};
         let fileToSubmit = null;
-        let spouseFileToSubmit = null; // ตัวแปรเก็บไฟล์คู่สมรส
+        let spouseFileToSubmit = null; 
 
-        // ฟังก์ชันอ่านไฟล์เป็น Base64 แบบ Promise เพื่อรองรับหลายไฟล์พร้อมกัน
         function getBase64(file) {
             return new Promise((resolve, reject) => {
                 const reader = new FileReader();
@@ -296,28 +300,61 @@
         }
 
         async function showSummary() {
-            const name = document.getElementById('fullName').value;
+            const name = document.getElementById('fullName').value.trim();
             if (!name) return Swal.fire({ icon: 'warning', title: 'ข้อมูลไม่ครบถ้วน', text: 'กรุณาระบุชื่อ-สกุล ของท่าน' });
 
             const group = document.querySelector('input[name="travelGroup"]:checked').value;
             const notAttending = group === 'ไม่ร่วมเดินทาง';
             const isSpouse = document.getElementById('companionType').value === 'spouse';
 
+            // --- ส่วนบังคับกรอก (Validation) ---
+            if (!notAttending) {
+                if (!document.getElementById('position').value.trim()) return Swal.fire({ icon: 'warning', title: 'ข้อมูลไม่ครบถ้วน', text: 'กรุณาระบุ ตำแหน่ง' });
+                if (!document.getElementById('organization').value.trim()) return Swal.fire({ icon: 'warning', title: 'ข้อมูลไม่ครบถ้วน', text: 'กรุณาระบุ หน่วยงาน' });
+                if (!document.getElementById('phone').value.trim()) return Swal.fire({ icon: 'warning', title: 'ข้อมูลไม่ครบถ้วน', text: 'กรุณาระบุ เบอร์โทรศัพท์' });
+                if (!document.getElementById('email').value.trim()) return Swal.fire({ icon: 'warning', title: 'ข้อมูลไม่ครบถ้วน', text: 'กรุณาระบุ อีเมล' });
+                
+                const roomType = document.getElementById('roomType').value;
+                if (roomType === 'นอนคู่' && !document.getElementById('roommateName').value.trim()) {
+                    return Swal.fire({ icon: 'warning', title: 'ข้อมูลไม่ครบถ้วน', text: 'กรุณาระบุ ชื่อผู้นอนคู่' });
+                }
+                
+                if (!document.getElementById('chestSize').value.trim()) return Swal.fire({ icon: 'warning', title: 'ข้อมูลไม่ครบถ้วน', text: 'กรุณาระบุ รอบอก (นิ้ว) ชุดการแสดง' });
+
+                // เช็คไฟล์ Passport หลัก (ถ้าย้อนกลับมาแก้ไฟล์จะยังคงอยู่ หรือต้องแนบใหม่ถ้ายังไม่มีข้อมูลเดิม)
+                const fileInput = document.getElementById('passportFile');
+                if (fileInput.files.length === 0 && !fileToSubmit) {
+                    return Swal.fire({ icon: 'warning', title: 'ข้อมูลไม่ครบถ้วน', text: 'กรุณาแนบไฟล์ Passport ของท่าน' });
+                }
+
+                // เช็คข้อมูลคู่สมรส
+                if (isSpouse) {
+                    if (!document.getElementById('spouseName').value.trim()) return Swal.fire({ icon: 'warning', title: 'ข้อมูลไม่ครบถ้วน', text: 'กรุณาระบุ ชื่อ-สกุล คู่สมรส' });
+                    if (!document.getElementById('spouseChestSize').value.trim()) return Swal.fire({ icon: 'warning', title: 'ข้อมูลไม่ครบถ้วน', text: 'กรุณาระบุ รอบอกคู่สมรส' });
+                    
+                    const spouseFileInput = document.getElementById('spousePassportFile');
+                    if (spouseFileInput.files.length === 0 && !spouseFileToSubmit) {
+                        return Swal.fire({ icon: 'warning', title: 'ข้อมูลไม่ครบถ้วน', text: 'กรุณาแนบไฟล์ Passport คู่สมรส' });
+                    }
+                }
+            }
+            // --- จบส่วน Validation ---
+
             formDataToSubmit = {
                 travelGroup: group,
                 otherGroup: group === 'อื่นๆ' ? document.getElementById('otherGroupText').value : '',
                 fullName: name,
                 departureAirport: notAttending ? '' : document.getElementById('departureAirport').value,
-                spouseName: (notAttending || !isSpouse) ? '' : document.getElementById('spouseName').value,
-                position: notAttending ? '' : document.getElementById('position').value,
-                organization: notAttending ? '' : document.getElementById('organization').value,
-                phone: notAttending ? '' : document.getElementById('phone').value,
-                email: notAttending ? '' : document.getElementById('email').value,
+                spouseName: (notAttending || !isSpouse) ? '' : document.getElementById('spouseName').value.trim(),
+                position: notAttending ? '' : document.getElementById('position').value.trim(),
+                organization: notAttending ? '' : document.getElementById('organization').value.trim(),
+                phone: notAttending ? '' : document.getElementById('phone').value.trim(),
+                email: notAttending ? '' : document.getElementById('email').value.trim(),
                 roomType: notAttending ? '' : document.getElementById('roomType').value,
-                roommateName: notAttending ? '' : (document.getElementById('roomType').value === 'นอนคู่' ? document.getElementById('roommateName').value : ''),
-                allergy: notAttending ? '' : document.getElementById('allergy').value,
-                chestSize: notAttending ? '' : document.getElementById('chestSize').value,
-                spouseChestSize: (notAttending || !isSpouse) ? '' : document.getElementById('spouseChestSize').value,
+                roommateName: notAttending ? '' : (document.getElementById('roomType').value === 'นอนคู่' ? document.getElementById('roommateName').value.trim() : ''),
+                allergy: notAttending ? '' : document.getElementById('allergy').value.trim(),
+                chestSize: notAttending ? '' : document.getElementById('chestSize').value.trim(),
+                spouseChestSize: (notAttending || !isSpouse) ? '' : document.getElementById('spouseChestSize').value.trim(),
                 cityTour: notAttending ? '' : document.getElementById('cityTour').value,
             };
 
@@ -340,20 +377,14 @@
 
             document.getElementById('summaryContent').innerHTML = summaryHTML;
 
-            // จัดการแปลงไฟล์ Passport หลัก
             const fileInput = document.getElementById('passportFile');
             if (fileInput && fileInput.files.length > 0) {
                 fileToSubmit = await getBase64(fileInput.files[0]);
-            } else {
-                fileToSubmit = null;
             }
 
-            // จัดการแปลงไฟล์ Passport คู่สมรส
             const spouseFileInput = document.getElementById('spousePassportFile');
             if (!notAttending && isSpouse && spouseFileInput && spouseFileInput.files.length > 0) {
                 spouseFileToSubmit = await getBase64(spouseFileInput.files[0]);
-            } else {
-                spouseFileToSubmit = null;
             }
 
             document.getElementById('step2').classList.add('hidden');
@@ -370,7 +401,6 @@
                 }
             });
 
-            // ส่งข้อมูลไฟล์ทั้ง 2 อันไปพร้อมกัน
             const payload = { 
                 form: formDataToSubmit, 
                 file: fileToSubmit,
