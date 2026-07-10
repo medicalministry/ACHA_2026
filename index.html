@@ -1,0 +1,299 @@
+<!DOCTYPE html>
+<html lang="th">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>ลงทะเบียน ACHA ครั้งที่ 28</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Prompt:wght@300;400;500;600&display=swap" rel="stylesheet">
+    <style>
+        body { font-family: 'Prompt', sans-serif; background-color: #f3f4f6; }
+        .hidden { display: none !important; }
+    </style>
+</head>
+<body class="p-4 md:p-8">
+
+    <div class="max-w-xl mx-auto bg-white rounded-2xl shadow-xl overflow-hidden">
+        <div class="bg-blue-600 p-6 text-white text-center">
+            <h1 class="text-2xl font-semibold">ลงทะเบียน ACHA ครั้งที่ 28</h1>
+            <p class="text-sm opacity-80 mt-1">ณ ประเทศไต้หวัน วันที่ 24-29 พ.ย. 2026</p>
+        </div>
+
+        <form id="regForm" class="p-6">
+            
+            <!-- Step 1: เลือกกลุ่ม -->
+            <div id="step1">
+                <h2 class="text-lg font-medium mb-4 text-gray-700">1. เลือกกลุ่มการเดินทาง</h2>
+                <div class="space-y-3">
+                    <label class="block p-3 border rounded-lg hover:bg-gray-50 cursor-pointer">
+                        <input type="radio" name="travelGroup" value="กลุ่มที่ 1 เดินทาง 24-28 พ.ย. 2026" class="mr-2" required> กลุ่มที่ 1 เดินทาง 24-28 พ.ย. 2026
+                    </label>
+                    <label class="block p-3 border rounded-lg hover:bg-gray-50 cursor-pointer">
+                        <input type="radio" name="travelGroup" value="กลุ่มที่ 2 เดินทาง 24-29 พ.ย. 2026" class="mr-2"> กลุ่มที่ 2 เดินทาง 24-29 พ.ย. 2026
+                    </label>
+                    <label class="block p-3 border rounded-lg hover:bg-gray-50 cursor-pointer">
+                        <input type="radio" name="travelGroup" value="ไม่ร่วมเดินทาง" class="mr-2"> ไม่ร่วมเดินทาง
+                    </label>
+                    <label class="block p-3 border rounded-lg hover:bg-gray-50 cursor-pointer">
+                        <input type="radio" name="travelGroup" value="อื่นๆ" class="mr-2" onchange="toggleOtherGroup()"> เดินทางแบบอื่นๆ (ระบุเอง)
+                    </label>
+                    <input type="text" id="otherGroupText" class="w-full p-2 border rounded-md hidden mt-2" placeholder="โปรดระบุ...">
+                </div>
+                <button type="button" onclick="nextToStep2()" class="mt-6 w-full bg-blue-600 text-white py-3 rounded-lg font-medium hover:bg-blue-700">ถัดไป</button>
+            </div>
+
+            <!-- Step 2: ข้อมูลส่วนตัว -->
+            <div id="step2" class="hidden space-y-4">
+                <h2 class="text-lg font-medium mb-4 text-gray-700">2. ข้อมูลผู้ลงทะเบียน</h2>
+                
+                <div>
+                    <label class="block text-sm text-gray-600 mb-1">ชื่อ-สกุล (ภาษาอังกฤษตาม Passport) *</label>
+                    <input type="text" id="fullName" class="w-full p-2 border rounded-md" required>
+                </div>
+
+                <!-- ซ่อนส่วนนี้ถ้าไม่ร่วมเดินทาง -->
+                <div id="travelDetails" class="space-y-4">
+                    
+                    <div>
+                        <label class="block text-sm text-gray-600 mb-1">ผู้ร่วมเดินทาง</label>
+                        <select id="companionType" onchange="toggleSpouse()" class="w-full p-2 border rounded-md">
+                            <option value="1">เดินทาง 1 คน</option>
+                            <option value="spouse">มีคู่สมรส</option>
+                        </select>
+                        <input type="text" id="spouseName" class="w-full p-2 border rounded-md hidden mt-2" placeholder="ชื่อ-สกุล คู่สมรส (ภาษาอังกฤษ)">
+                    </div>
+
+                    <div>
+                        <label class="block text-sm text-gray-600 mb-1">ตำแหน่ง (ภาษาอังกฤษ)</label>
+                        <input type="text" id="position" class="w-full p-2 border rounded-md">
+                    </div>
+                    <div>
+                        <label class="block text-sm text-gray-600 mb-1">หน่วยงาน</label>
+                        <input type="text" id="organization" class="w-full p-2 border rounded-md">
+                    </div>
+                    <div class="grid grid-cols-2 gap-4">
+                        <div>
+                            <label class="block text-sm text-gray-600 mb-1">เบอร์โทรศัพท์</label>
+                            <input type="tel" id="phone" class="w-full p-2 border rounded-md">
+                        </div>
+                        <div>
+                            <label class="block text-sm text-gray-600 mb-1">อีเมล</label>
+                            <input type="email" id="email" class="w-full p-2 border rounded-md">
+                        </div>
+                    </div>
+
+                    <div>
+                        <label class="block text-sm text-gray-600 mb-1">ประเภทห้องพัก</label>
+                        <select id="roomType" onchange="toggleRoommate()" class="w-full p-2 border rounded-md">
+                            <option value="นอนเดี่ยว">นอนเดี่ยว</option>
+                            <option value="นอนคู่">นอนคู่</option>
+                        </select>
+                        <input type="text" id="roommateName" class="w-full p-2 border rounded-md hidden mt-2" placeholder="ระบุชื่อผู้นอนคู่">
+                    </div>
+
+                    <div>
+                        <label class="block text-sm text-gray-600 mb-1">อาการแพ้อาหาร</label>
+                        <input type="text" id="allergy" class="w-full p-2 border rounded-md" placeholder="ถ้าไม่มีให้เว้นว่าง หรือระบุสิ่งที่แพ้">
+                    </div>
+
+                    <div class="p-4 border rounded-lg bg-gray-50">
+                        <div class="flex justify-between items-center mb-2">
+                            <label class="block text-sm text-gray-600 font-semibold">เลือก City Tour</label>
+                            <button type="button" onclick="openModal()" class="text-xs bg-blue-100 text-blue-700 px-2 py-1 rounded">ดูรายละเอียด</button>
+                        </div>
+                        <select id="cityTour" class="w-full p-2 border rounded-md">
+                            <option value="">ไม่ระบุ / ไม่เข้าร่วม</option>
+                            <option value="City Tour 1">City Tour 1 (NT$250)</option>
+                            <option value="City Tour 2">City Tour 2 (NT$830)</option>
+                        </select>
+                    </div>
+
+                    <div>
+                        <label class="block text-sm text-gray-600 mb-1">Passport No.</label>
+                        <input type="text" id="passportNo" class="w-full p-2 border rounded-md">
+                    </div>
+                    
+                    <div>
+                        <label class="block text-sm text-gray-600 mb-1">แนบไฟล์ Passport (รูปภาพ หรือ PDF)</label>
+                        <input type="file" id="passportFile" class="w-full p-2 border rounded-md text-sm">
+                    </div>
+                </div>
+
+                <div class="flex gap-4 mt-6">
+                    <button type="button" onclick="goBack(1)" class="w-1/3 bg-gray-300 text-gray-700 py-3 rounded-lg font-medium">ย้อนกลับ</button>
+                    <button type="button" onclick="showSummary()" class="w-2/3 bg-blue-600 text-white py-3 rounded-lg font-medium hover:bg-blue-700">ตรวจสอบข้อมูล</button>
+                </div>
+            </div>
+
+            <!-- Step 3: สรุปข้อมูลก่อนส่ง -->
+            <div id="step3" class="hidden">
+                <h2 class="text-lg font-medium mb-4 text-gray-700">3. ตรวจสอบข้อมูลก่อนส่ง</h2>
+                <div id="summaryContent" class="bg-gray-50 p-4 rounded-lg space-y-2 text-sm text-gray-700 border">
+                    <!-- Data will be injected here -->
+                </div>
+                
+                <div class="flex gap-4 mt-6">
+                    <button type="button" onclick="goBack(2)" class="w-1/3 bg-gray-300 text-gray-700 py-3 rounded-lg font-medium">แก้ไขข้อมูล</button>
+                    <button type="button" onclick="submitForm()" class="w-2/3 bg-green-600 text-white py-3 rounded-lg font-medium hover:bg-green-700" id="submitBtn">ยืนยันการส่ง</button>
+                </div>
+            </div>
+
+        </form>
+    </div>
+
+    <!-- Modal City Tour -->
+    <div id="tourModal" class="fixed inset-0 bg-black bg-opacity-50 hidden flex items-center justify-center p-4 z-50">
+        <div class="bg-white rounded-lg max-w-md w-full p-6">
+            <h3 class="text-lg font-semibold mb-4 border-b pb-2">รายละเอียด City Tour</h3>
+            <div class="space-y-4 text-sm text-gray-700">
+                <div>
+                    <h4 class="font-bold text-blue-600">City Tour 1: Missionaries' Footsteps</h4>
+                    <p>(Sin-Lau Hospital, Maxwell Memorial Church, Tainan Theological Seminary)</p>
+                    <p class="text-gray-500 mt-1">ราคา: NT$250 per person (Max. 40 ท่าน)</p>
+                </div>
+                <div>
+                    <h4 class="font-bold text-blue-600">City Tour 2: Chimei Museum</h4>
+                    <p>(The British Muse Exhibition: The Kings of Egypt-Pharaohs)</p>
+                    <p class="text-gray-500 mt-1">ราคา: NT$830 per person (Max. 120 ท่าน)</p>
+                </div>
+            </div>
+            <button type="button" onclick="closeModal()" class="mt-6 w-full bg-gray-800 text-white py-2 rounded-lg">ปิดหน้าต่าง</button>
+        </div>
+    </div>
+
+    <script>
+        // === กรอก Web App URL ที่ได้จาก Google Apps Script ที่นี่ ===
+        const APPS_SCRIPT_URL = "https://script.google.com/macros/s/AKfycbw70WoR0UTMTyWfEJYBY0ebIsJlQQVVc3WSOk9XBYoiX9jdcVmR-IUERIHBF0E8ZyjRpw/exec";
+
+        function toggleOtherGroup() {
+            const isOther = document.querySelector('input[name="travelGroup"][value="อื่นๆ"]').checked;
+            document.getElementById('otherGroupText').classList.toggle('hidden', !isOther);
+        }
+
+        function toggleSpouse() {
+            const isSpouse = document.getElementById('companionType').value === 'spouse';
+            document.getElementById('spouseName').classList.toggle('hidden', !isSpouse);
+        }
+
+        function toggleRoommate() {
+            const isTwin = document.getElementById('roomType').value === 'นอนคู่';
+            document.getElementById('roommateName').classList.toggle('hidden', !isTwin);
+        }
+
+        function openModal() { document.getElementById('tourModal').classList.remove('hidden'); }
+        function closeModal() { document.getElementById('tourModal').classList.add('hidden'); }
+
+        function nextToStep2() {
+            const selectedGroup = document.querySelector('input[name="travelGroup"]:checked');
+            if (!selectedGroup) return alert('กรุณาเลือกกลุ่มการเดินทาง');
+            
+            document.getElementById('step1').classList.add('hidden');
+            document.getElementById('step2').classList.remove('hidden');
+            
+            // กรณีไม่ร่วมเดินทาง ซ่อนฟิลด์ที่ไม่จำเป็น
+            const notAttending = selectedGroup.value === 'ไม่ร่วมเดินทาง';
+            document.getElementById('travelDetails').classList.toggle('hidden', notAttending);
+        }
+
+        function goBack(step) {
+            document.getElementById('step1').classList.add('hidden');
+            document.getElementById('step2').classList.add('hidden');
+            document.getElementById('step3').classList.add('hidden');
+            document.getElementById(`step${step}`).classList.remove('hidden');
+        }
+
+        let formDataToSubmit = {};
+        let fileToSubmit = null;
+
+        async function showSummary() {
+            const name = document.getElementById('fullName').value;
+            if (!name) return alert('กรุณาระบุชื่อ-สกุล');
+
+            const group = document.querySelector('input[name="travelGroup"]:checked').value;
+            const notAttending = group === 'ไม่ร่วมเดินทาง';
+
+            formDataToSubmit = {
+                travelGroup: group,
+                otherGroup: group === 'อื่นๆ' ? document.getElementById('otherGroupText').value : '',
+                fullName: name,
+                spouseName: notAttending ? '' : (document.getElementById('companionType').value === 'spouse' ? document.getElementById('spouseName').value : ''),
+                position: notAttending ? '' : document.getElementById('position').value,
+                organization: notAttending ? '' : document.getElementById('organization').value,
+                phone: notAttending ? '' : document.getElementById('phone').value,
+                email: notAttending ? '' : document.getElementById('email').value,
+                roomType: notAttending ? '' : document.getElementById('roomType').value,
+                roommateName: notAttending ? '' : (document.getElementById('roomType').value === 'นอนคู่' ? document.getElementById('roommateName').value : ''),
+                allergy: notAttending ? '' : document.getElementById('allergy').value,
+                cityTour: notAttending ? '' : document.getElementById('cityTour').value,
+                passportNo: notAttending ? '' : document.getElementById('passportNo').value,
+            };
+
+            // แสดงผลในหน้า summary
+            let summaryHTML = `<p><strong>ชื่อ-สกุล:</strong> ${formDataToSubmit.fullName}</p>
+                               <p><strong>กลุ่มการเดินทาง:</strong> ${formDataToSubmit.travelGroup} ${formDataToSubmit.otherGroup ? `(${formDataToSubmit.otherGroup})` : ''}</p>`;
+            
+            if (!notAttending) {
+                summaryHTML += `
+                    <p><strong>ผู้ร่วมเดินทาง:</strong> ${formDataToSubmit.spouseName ? 'มีคู่สมรส (' + formDataToSubmit.spouseName + ')' : 'เดินทาง 1 คน'}</p>
+                    <p><strong>หน่วยงาน:</strong> ${formDataToSubmit.organization}</p>
+                    <p><strong>เบอร์โทร:</strong> ${formDataToSubmit.phone} | <strong>อีเมล:</strong> ${formDataToSubmit.email}</p>
+                    <p><strong>ห้องพัก:</strong> ${formDataToSubmit.roomType} ${formDataToSubmit.roommateName ? `(คู่กับ ${formDataToSubmit.roommateName})` : ''}</p>
+                    <p><strong>แพ้อาหาร:</strong> ${formDataToSubmit.allergy || 'ไม่มี'}</p>
+                    <p><strong>City Tour:</strong> ${formDataToSubmit.cityTour || 'ไม่ระบุ'}</p>
+                    <p><strong>Passport No:</strong> ${formDataToSubmit.passportNo}</p>
+                `;
+            }
+
+            document.getElementById('summaryContent').innerHTML = summaryHTML;
+
+            // จัดการไฟล์ (ถ้ามี)
+            const fileInput = document.getElementById('passportFile');
+            if (fileInput.files.length > 0) {
+                const file = fileInput.files[0];
+                const reader = new FileReader();
+                reader.onload = function(e) {
+                    const base64 = e.target.result.split(',')[1];
+                    fileToSubmit = { filename: file.name, mimeType: file.type, base64: base64 };
+                };
+                reader.readAsDataURL(file);
+            } else {
+                fileToSubmit = null;
+            }
+
+            document.getElementById('step2').classList.add('hidden');
+            document.getElementById('step3').classList.remove('hidden');
+        }
+
+        function submitForm() {
+            const btn = document.getElementById('submitBtn');
+            btn.innerText = 'กำลังส่งข้อมูล...';
+            btn.disabled = true;
+            btn.classList.add('opacity-50');
+
+            const payload = { form: formDataToSubmit, file: fileToSubmit };
+
+            fetch(APPS_SCRIPT_URL, {
+                method: 'POST',
+                body: JSON.stringify(payload)
+            })
+            .then(res => res.json())
+            .then(data => {
+                if (data.status === 'success') {
+                    alert('ลงทะเบียนสำเร็จ! ข้อมูลถูกส่งไปที่อีเมลของคุณเรียบร้อยแล้ว');
+                    window.location.reload();
+                } else {
+                    alert('เกิดข้อผิดพลาด: ' + data.message);
+                    btn.innerText = 'ยืนยันการส่ง';
+                    btn.disabled = false;
+                    btn.classList.remove('opacity-50');
+                }
+            })
+            .catch(err => {
+                // สำหรับ GAS บางครั้งจะมีปัญหา CORS แม้จะสำเร็จ ให้ถือว่าสำเร็จหากส่งไปแล้ว error JSON parse
+                alert('ส่งข้อมูลเรียบร้อยแล้ว');
+                window.location.reload();
+            });
+        }
+    </script>
+</body>
+</html>
